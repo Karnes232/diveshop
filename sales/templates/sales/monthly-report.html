@@ -1,7 +1,7 @@
 {% extends "sales/layout.html" %}
 {% load static %}
 {% block body %}
-<div class="container">
+
     <h2>{% if date != "" %}Daily Report: {{ date }}{% else %}{% if month != "0" %}Monthly Report: {% else %}Yearly Report: {% endif %} {{ year }}{% if month != "0" %} - {{ month }} {% endif %} {% endif %}</h2>
     
     {% if hotel %}
@@ -129,5 +129,5 @@
     {% endif %}
 
 
-</div>
+
 {% endblock %}
