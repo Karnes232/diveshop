@@ -1,0 +1,25 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h2>Daily Report Selection</h2>
+
+    
+
+    <form action="{% url 'daily_reports' %}" method="post">
+        {% csrf_token %}
+        <h6>Hotel:</h6>
+        <select class="form-control" name="hotel" id="">
+            {% for hotel in hotels %}
+                <option value="{{ hotel.id }}">{{ hotel }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="date" name="date" id="" required>
+        
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+
+</div>
+{% endblock %}

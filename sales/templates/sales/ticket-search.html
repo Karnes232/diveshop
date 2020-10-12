@@ -1,0 +1,30 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h2>Ticket Search</h2>
+
+    
+
+    <form action="{% url 'tickets' %}" method="post">
+        {% csrf_token %}
+        <h6>Hotel:</h6>
+        <select class="form-control" name="hotel" id="">
+            {% for hotel in hotels %}
+                <option value="{{ hotel.id }}">{{ hotel }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <div class="form-group">
+            <input class="form-control" type="text" name="room_number" placeholder="Search by Room Number">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="email" name="client_email" placeholder="Search by Email">
+        </div>
+        
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+
+</div>
+{% endblock %}

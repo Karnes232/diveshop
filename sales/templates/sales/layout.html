@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Dive Shop{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'sales/styles.css' %}">
+        {% block link %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+            <a class="navbar-brand" href="{% url 'index' %}">Dive Shop</a>         
+            <div>
+              <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <strong>{{ user.username }}</strong>
+                    </li>
+                {% endif %}  
+              </ul>
+            </div> 
+            <div class="d-flex justify-content-between">    
+                {% if is_super %}
+                    <li class="nav-item dropdown" style="list-style: none;">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Operations</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'hotel' %}">New Hotel</a>
+                            <a class="dropdown-item" href="{% url 'management' %}">New Manager</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'export_users_xls' %}">Email List</a>
+                            <a class="dropdown-item" href="{% url 'export_users_xls2' %}">All Sales</a>
+                            <a class="dropdown-item" href="{% url 'activity' %}">New Activity</a>
+                        </div>
+                    </li> 
+                {% endif %}         
+                {% if is_super or is_management %}
+                    <li class="nav-item dropdown" style="list-style: none;">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Management</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'monthly_reports' %}">Monthly / Yearly Reports</a>
+                            <a class="dropdown-item" href="{% url 'employee_sales' %}">Employee Sales</a>
+                            <div class="dropdown-divider"></div>   
+                            <a class="dropdown-item" href="{% url 'staff_list' %}">Staff List</a>
+                            <div class="dropdown-divider"></div>                        
+                            <a class="dropdown-item" href="{% url 'office' %}">New Office Staff</a>
+                            <a class="dropdown-item" href="{% url 'new_employee' %}">New Sales Staff</a>    
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'fired' %}">Fire Staff</a>                 
+                        </div>
+                      </li> 
+                {% endif %}
+                {% if user.is_authenticated %} 
+                    <li class="nav-item dropdown" style="list-style: none;">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Basics</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'daily_reports' %}">Daily Reports</a>
+                            <a class="dropdown-item" href="{% url 'my_report' %}">My Report</a>
+                            <a class="dropdown-item" href="{% url 'tickets' %}">Ticket Search</a>
+                            <a class="dropdown-item" href="{% url 'password' %}">Change Password</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Sign Out</a>                         
+                        </div>
+                      </li> 
+                {% endif %}
+              </ul>
+            </div>
+        </nav>   
+    </div>    
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+            {% block script %}
+            {% endblock %}
+        </div>
+
+        <script src="{% static 'sales/script.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+    </body>
+</html>

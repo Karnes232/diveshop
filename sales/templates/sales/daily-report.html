@@ -1,0 +1,153 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h2>Daily Report: {{ date }}</h2>
+    <h2>Hotel: {{ hotel }}</h2>
+    <br>
+    <h4>Cash Flow (In USD)</h4>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th style="width: 14%">US Dollar</th>
+            <th style="width: 14%">Canadian Dollar</th>
+            <th style="width: 14%">Dominican Peso</th>
+            <th style="width: 14%">Euro</th>
+            <th style="width: 14%">Visa</th>
+            <th style="width: 14%">Master Card</th>
+            <th style="width: 14%">Amex</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${{ usd_total}}</td>
+                <td>${{ cdn_total }}</td>
+                <td>${{ rd_total }}</td>
+                <td>${{ euro_total }}</td>
+                <td>${{ visa_total }}</td>
+                <td>${{ mc_total }}</td>
+                <td>${{ amex_total }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Activity Sales in USD</h4>
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 12%">{{ act_list.0 }}</th>
+                    <th style="width: 12%">{{ act_list.1 }}</th>
+                    <th style="width: 12%">{{ act_list.2 }}</th>
+                    <th style="width: 12%">{{ act_list.3 }}</th>
+                    <th style="width: 12%">{{ act_list.4 }}</th>
+                    <th style="width: 12%">{{ act_list.5 }}</th>
+                    <th style="width: 12%">{{ act_list.6 }}</th>
+                    <th style="width: 12%">{{ act_list.7 }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${{ sales_numbers.0 }}</td>
+                    <td>${{ sales_numbers.1  }}</td>
+                    <td>${{ sales_numbers.2  }}</td>
+                    <td>${{ sales_numbers.3  }}</td>
+                    <td>${{ sales_numbers.4  }}</td>
+                    <td>${{ sales_numbers.5  }}</td>
+                    <td>${{ sales_numbers.6  }}</td>
+                    <td>${{ sales_numbers.7  }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 12%">{{ act_list.8 }}</th>
+                    <th style="width: 12%">{{ act_list.9 }}</th>
+                    <th style="width: 12%">{{ act_list.10 }}</th>
+                    <th style="width: 12%">{{ act_list.11 }}</th>
+                    <th style="width: 12%">{{ act_list.12 }}</th>
+                    <th style="width: 12%">{{ act_list.13 }}</th>
+                    <th style="width: 12%">{{ act_list.14 }}</th>
+                    <th style="width: 12%">{{ act_list.15 }}</th>
+                </tr>
+                <tr>
+                    <td>${{ sales_numbers.8  }}</td>
+                    <td>${{ sales_numbers.9  }}</td>
+                    <td>${{ sales_numbers.10 }}</td>
+                    <td>${{ sales_numbers.11  }}</td>
+                    <td>${{ sales_numbers.12 }}</td>
+                    <td>${{ sales_numbers.13 }}</td>
+                    <td>${{ sales_numbers.14 }}</td>
+                    <td>${{ sales_numbers.15 }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 12%">{{ act_list.16 }}</th>
+                    <th style="width: 12%">{{ act_list.17 }}</th>
+                    <th style="width: 12%">{{ act_list.18 }}</th>
+                    <th style="width: 12%">{{ act_list.19 }}</th>
+                    <th style="width: 12%">{{ act_list.20 }}</th>
+                    <th style="width: 12%">{{ act_list.21 }}</th>
+                    <th style="width: 12%">{{ act_list.22 }}</th>
+                    <th style="width: 12%">{{ act_list.23 }}</th>
+                </tr>
+                <tr>
+                    <td>${{ sales_numbers.16 }}</td>
+                    <td>${{ sales_numbers.17 }}</td>
+                    <td>${{ sales_numbers.18 }}</td>
+                    <td>${{ sales_numbers.19 }}</td>
+                    <td>${{ sales_numbers.20 }}</td>
+                    <td>${{ sales_numbers.21 }}</td>
+                    <td>${{ sales_numbers.22 }}</td>
+                    <td>${{ sales_numbers.23 }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 12%">{{ act_list.24 }}</th>
+                    <th style="width: 12%">{{ act_list.25 }}</th>
+                    <th style="width: 12%">{{ act_list.26 }}</th>
+                    <th style="width: 12%">{{ act_list.27 }}</th>
+                    <th style="width: 12%">{{ act_list.28 }}</th>
+                    <th style="width: 12%">{{ act_list.29 }}</th>
+                    <th style="width: 12%">{{ act_list.30 }}</th>
+                    <th style="width: 12%">{{ act_list.31 }}</th>
+                </tr>
+                <tr>
+                    <td>${{ sales_numbers.24 }}</td>
+                    <td>${{ sales_numbers.25 }}</td>
+                    <td>${{ sales_numbers.26 }}</td>
+                    <td>${{ sales_numbers.27 }}</td>
+                    <td>${{ sales_numbers.28 }}</td>
+                    <td>${{ sales_numbers.29 }}</td>
+                    <td>${{ sales_numbers.30 }}</td>
+                    <td>${{ sales_numbers.31 }}</td>
+                </tr>
+            </tbody>
+    </table>
+
+    <h4>Tickets</h4>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th style="width: 14%">Ticket #</th>
+            <th style="width: 14%">Room #</th>
+            <th style="width: 14%">Payment Type</th>
+            <th style="width: 14%">Cost</th>
+            <th style="width: 14%">Sold By</th>
+            <th style="width: 14%">Office</th>
+            <th style="width: 14%"> </th>
+        </thead>
+        <tbody>
+            {%for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.room_number }}</td>
+                <td>{{ ticket.payment }}</td>
+                <td>${{ ticket.total_cost }}</td>
+                <td>{{ ticket.seller }}</td>
+                <td>{{ ticket.office }}</td>     
+                {% if is_super or is_management %}
+                <td>
+                    <form action="{% url 'refund' ticket.id %}" method="post">
+                        {% csrf_token %}
+                    <input class="btn btn-danger btn-sm" type="submit" name="refund" value="Refund" onclick="return confirm('Are you sure?')">
+                    </form>
+                </td>
+                {% endif %} 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

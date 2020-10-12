@@ -1,0 +1,61 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h4>Hotel: {{ ticket.hotel }}</h4>
+    <h4>Ticket #: {{ ticket.id }}</h4>
+    <h4>Sale Date: {{ ticket.date_sold }}</h4>
+    <h6>Customer Name: {{ ticket.client_name }}</h6>
+    <h6>Customer Email: {{ ticket.client_email }}</h6>
+    <h6>Room Number: {{ ticket.room_number }}</h6>
+    <h6>Pick up location: {{ ticket.pickup_location }}</h6>
+
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+            <th style="width: 10%">Quantity</th>
+            <th style="width: 60%">Activity</th>
+            <th style="width: 30%">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ ticket.quantity1 }}</td>
+                <td>{{ ticket.activity1 }}</td>
+                <td>${{ ticket.price1 }}</td>
+            </tr>
+            {% if ticket.quantity2 != None %}
+            <tr>
+                <td>{{ ticket.quantity2 }}</td>
+                <td>{{ ticket.activity2 }}</td>
+                <td>${{ ticket.price2 }}</td>
+            </tr>
+            {% endif %}
+            {% if ticket.quantity3 != None %}
+            <tr>
+                <td>{{ ticket.quantity3 }}</td>
+                <td>{{ ticket.activity3 }}</td>
+                <td>${{ ticket.price3 }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td></td>
+                <td>Total Cost:</td>
+                <td>${{ ticket.total_cost }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h6>Paid with: {{ ticket.payment }}</h6>
+    <h6>Activity Date: {{ ticket.activity_date }}</h6>
+    <h6>Activity Time: {{ ticket.activity_time }}</h6>
+    <h6>Sales Person: {{ ticket.seller }}</h6>
+    <h6>Office Staff: {{ ticket.office }}</h6>
+    <br>
+    <br>
+    <h6>Comments: </h6>
+    <p>{{ ticket.comments }}</p>
+
+
+
+</div>
+{% endblock %}

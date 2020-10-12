@@ -1,0 +1,23 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h2>New Activity</h2>
+
+    {% if message %}
+    <div class="alert alert-primary" role="alert">{{ message }}</div>
+    <br>
+    {% endif %}
+
+    <form action="{% url 'activity' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="text" name="activity" placeholder="New Activity" required>
+        </div>
+        
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+
+</div>
+{% endblock %}
