@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = 'tt7h7(yp3x!2jm3%9k6tnnoaeui6s%t20mfi$9ea4h-n^a(qge'
-#SECRET_KEY = os.environ.get('SECRET_KEY')
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['divecenter.herokuapp.com']
 
