@@ -23,66 +23,66 @@
             <tbody>
                 <div>
                 <tr id="row1">
-                    <td><input name="quantity1" type="number" placeholder="Quantity" min=0 required></td>
+                    <td><input class="form-control form-control-lg" name="quantity1" type="number" placeholder="Quantity" min=0 required></td>
                     <td>
-                        <select class="form-control" name="activity1" id="" required>
+                        <select class="form-control form-control-lg" name="activity1" id="" required>
                             <option label=" "></option>
                             {% for activity in activities %}
                                 <option value="{{ activity.id }}">{{ activity }}</option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td><input name="price1" type="number" placeholder="Price" min=0 required></td>
+                    <td><input class="form-control form-control-lg" name="price1" type="number" placeholder="Price" min=0 required></td>
                 </tr>
                 </div>
                 <br>
                 <div>
                     <tr id="row2" style="display: none;">
-                        <td><input name="quantity2" type="number" placeholder="Quantity" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" name="quantity2" type="number" placeholder="Quantity" min=0 value=0></td>
                         <td>
-                            <select class="form-control" name="activity2" id="">
+                            <select class="form-control form-control-lg" name="activity2" id="">
                                 <option label=" "></option>
                                 {% for activity in activities %}
                                     <option value="{{ activity.id }}">{{ activity }}</option>
                                 {% endfor %}
                             </select>
                         </td>
-                        <td><input name="price2" type="number" placeholder="Price" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" name="price2" type="number" placeholder="Price" min=0 value=0></td>
                     </tr>
                 </div>
                 <br>
                 <div>
                     <tr id="row3" style="display: none;">
-                        <td><input name="quantity3" type="number" placeholder="Quantity" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" name="quantity3" type="number" placeholder="Quantity" min=0 value=0></td>
                         <td>
-                            <select class="form-control" name="activity3" id="">
+                            <select class="form-control form-control-lg" name="activity3" id="">
                                 <option label=" "></option>
                                 {% for activity in activities %}
                                     <option value="{{ activity.id }}">{{ activity }}</option>
                                 {% endfor %}
                             </select>
                         </td>
-                        <td><input name="price3" type="number" placeholder="Price" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" name="price3" type="number" placeholder="Price" min=0 value=0></td>
                     </tr>
                 </div>         
             </tbody>
         </table>
         <h6>Hotel:</h6>
-        <select class="form-control" name="hotel" id="">
+        <select class="form-control form-control-lg" name="hotel" id="">
             {% for hotel in hotels %}
                 <option value="{{ hotel.id }}">{{ hotel }}</option>
             {% endfor %}
         </select>
         <br>
         <h6>Sold By:</h6>
-        <select class="form-control" name="employee" id="">
+        <select class="form-control form-control-lg" name="employee" id="">
             {% for employee in employees %}
                 <option value="{{ employee.id }}">{{ employee }}</option>
             {% endfor %}
         </select>
         <br>
         <h6>Payment:</h6>
-        <select class="form-control" name="payment" id="">
+        <select class="form-control form-control-lg" name="payment" id="">
             <option value="US Dollar">US Dollar</option>
             <option value="Dominican Peso">Dominican Peso</option>
             <option value="Euro">Euro</option>
@@ -93,19 +93,19 @@
         </select>
         <br>
         <h6>Pickup Location:</h6>
-        <select class="form-control" name="pick_up" id="">
+        <select class="form-control form-control-lg" name="pick_up" id="">
             <option value="Dive Center">Dive Center</option>
             <option value="Lobby">Lobby</option>                       
         </select>
         <br>
         <h6>Client Information:</h6>
-        <input class="form-control" name="room" type="number" placeholder="Room Number">
-        <input class="form-control" type="text" name="client_name" placeholder="Client Name" required>
-        <input class="form-control" type="email" name="email" placeholder="Client Email" required>
+        <input class="form-control form-control-lg" name="room" type="number" placeholder="Room Number">
+        <input class="form-control form-control-lg" type="text" name="client_name" placeholder="Client Name" required>
+        <input class="form-control form-control-lg" type="email" name="email" placeholder="Client Email" required>
         <br>
         <h6>Activity Date/Time</h6>
-        <input class="form-control" type="date" name="activity_date" id="" required>
-        <input class="form-control" type="time" name="activity_time" id="" required>
+        <input class="form-control form-control-lg" type="date" name="activity_date" id="" required>
+        <input class="form-control form-control-lg" type="time" name="activity_time" id="" required>
         <br>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="Radios" id="Radios1" value="Mariana" checked>
