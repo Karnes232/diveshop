@@ -1,0 +1,67 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+
+    <h2>Day End Report</h2>
+
+    <form action="{% url 'daily_money_report' %}" method="post">
+        {% csrf_token %}
+
+        <h6>Hotel:</h6>
+        <select class="form-control form-control-lg" name="hotel" id="">
+            {% for hotel in hotels %}
+                <option value="{{ hotel.id }}">{{ hotel }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <h4>Cash Flow (In USD)</h4>
+        <table class="table table-sm table-striped">
+            <thead class="text-center">
+                <th style="width: 14%">US Dollar</th>
+                <th style="width: 14%">Canadian Dollar</th>
+                <th style="width: 14%">Dominican Peso</th>
+                <th style="width: 14%">Euro</th>
+                <th style="width: 14%">Visa</th>
+                <th style="width: 14%">Master Card</th>
+                <th style="width: 14%">Amex</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input class="form-control form-control-lg" id="usd" name="usd" type="number" placeholder="USD" min=0 value=0></td>
+                    <td><input class="form-control form-control-lg" id="cdn" name="cdn" type="number" placeholder="CDN" min=0 value=0></td>
+                    <td><input class="form-control form-control-lg" id="rd" name="rd" type="number" placeholder="RD" min=0 value=0></td>
+                    <td><input class="form-control form-control-lg" id="euro" name="euro" type="number" placeholder="Euro" min=0 value=0></td>
+                    <td><input class="form-control form-control-lg" id="visa" name="visa" type="number" placeholder="Visa" min=0 value=0></td>
+                    <td><input class="form-control form-control-lg" id="mc" name="mc" type="number" placeholder="Master Card" min=0 value=0></td>
+                    <td><input class="form-control form-control-lg" id="amex" name="amex" type="number" placeholder="Amex" min=0 value=0></td>
+                        
+                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <br><br>
+        <h4>Expenses: </h4>
+    
+        <table class="table table-striped" style="width: 30%">
+            <tbody style="width: 30%">
+                <tr>
+                    <td style="width: 10%">Gasoline Used: </td>
+                    <td style="width: 20%"><input class="form-control form-control-lg" id="gasoline" name="gasoline" type="number" placeholder="gasoline" min=0 value=0></td>
+                </tr>
+                <tr>
+                    <td style="width: 10%">Other: </td>
+                    <td style="width: 20%"><input class="form-control form-control-lg" id="other" name="other" type="number" placeholder="other" min=0 value=0></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <textarea class="form-control" id="comment" name="comment" rows="4" cols="50" placeholder="Comments"></textarea>
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Submit" onclick="return confirm('Are you sure?') ">
+
+    </form>
+
+{% endblock %}

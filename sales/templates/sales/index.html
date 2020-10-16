@@ -23,7 +23,7 @@
             <tbody>
                 <div>
                 <tr id="row1">
-                    <td><input class="form-control form-control-lg" name="quantity1" type="number" placeholder="Quantity" min=0 required></td>
+                    <td><input class="form-control form-control-lg" id="quantity1" name="quantity1" type="number" placeholder="Quantity" min=0 required></td>
                     <td>
                         <select class="form-control form-control-lg" name="activity1" id="" required>
                             <option label=" "></option>
@@ -32,13 +32,13 @@
                             {% endfor %}
                         </select>
                     </td>
-                    <td><input class="form-control form-control-lg" name="price1" type="number" placeholder="Price" min=0 required></td>
+                    <td><input class="form-control form-control-lg" id="price1" name="price1" type="number" placeholder="Price" min=0 required></td>
                 </tr>
                 </div>
                 <br>
                 <div>
                     <tr id="row2" style="display: none;">
-                        <td><input class="form-control form-control-lg" name="quantity2" type="number" placeholder="Quantity" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" id="quantity2" name="quantity2" type="number" placeholder="Quantity" min=0 value=0></td>
                         <td>
                             <select class="form-control form-control-lg" name="activity2" id="">
                                 <option label=" "></option>
@@ -47,13 +47,13 @@
                                 {% endfor %}
                             </select>
                         </td>
-                        <td><input class="form-control form-control-lg" name="price2" type="number" placeholder="Price" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" id="price2" name="price2" type="number" placeholder="Price" min=0 value=0></td>
                     </tr>
                 </div>
                 <br>
                 <div>
                     <tr id="row3" style="display: none;">
-                        <td><input class="form-control form-control-lg" name="quantity3" type="number" placeholder="Quantity" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" id="quantity3" name="quantity3" type="number" placeholder="Quantity" min=0 value=0></td>
                         <td>
                             <select class="form-control form-control-lg" name="activity3" id="">
                                 <option label=" "></option>
@@ -62,7 +62,7 @@
                                 {% endfor %}
                             </select>
                         </td>
-                        <td><input class="form-control form-control-lg" name="price3" type="number" placeholder="Price" min=0 value=0></td>
+                        <td><input class="form-control form-control-lg" id="price3" name="price3" type="number" placeholder="Price" min=0 value=0></td>
                     </tr>
                 </div>         
             </tbody>
@@ -125,9 +125,10 @@
                 <textarea class="form-control" id="comment" name="comment" rows="4" cols="50" placeholder="Comments"></textarea>
             </div>
         <br><br>
-        <input class="btn btn-primary" type="submit" value="Submit" onclick="return confirm('Are you sure?')">
+        <input class="btn btn-primary" type="submit" value="Submit" onclick="return confirm(total_sale()) ">
+
     </form>
     <br>
     
-
+ 
 {% endblock %}

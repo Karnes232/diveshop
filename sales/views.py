@@ -12,7 +12,7 @@ from datetime import date
 
 
 from .util import SuperUser, Manager, OfficeStaff, ActivityReport
-from .models import User, Employee, Hotel, Management, Office, Activity, Sale, EmailList
+from .models import User, Employee, Hotel, Management, Office, Activity, Sale, EmailList, DayEndReport
 from .forms import PasswordChangingForm
 #Email to Clients
 from django.core import mail
@@ -112,9 +112,7 @@ def index(request):
         if quantity3 == 0 and quantity2 > 0:
             sale = Sale(seller=seller, hotel=hotel, activity_date=activity_date, activity_time=activity_time, payment=payment, client_name=client_name,  room_number=room_number, client_email=client_email, quantity1=quantity1, activity1=activity1, price1=price1, quantity2=quantity2, activity2=activity2, price2=price2, total_cost=total_cost, office=current_user, pickup_location=pick_up, comments=comment)
             sale.save()
-
             
-
         #Adds to Database if 1 items are sold
         if quantity3 == 0 and quantity2 == 0:
             sale = Sale(seller=seller, hotel=hotel, activity_date=activity_date, activity_time=activity_time, payment=payment, client_name=client_name,  room_number=room_number, client_email=client_email, quantity1=quantity1, activity1=activity1, price1=price1, total_cost=total_cost, office=current_user, pickup_location=pick_up, comments=comment)
@@ -454,9 +452,17 @@ def ticket(request, sale_id):
 def daily_reports(request):
     if request.method == "POST":
         hotel_id = request.POST["hotel"]
-        hotel = Hotel.objects.get(id=hotel_id)
+        employee_id = request.POST["employee"]
         date = request.POST["date"]
-        tickets = Sale.objects.filter(date_sold=date).filter(hotel=hotel).order_by("-id")        
+        hotel = ""
+        employee = ""
+        if hotel_id == "0":
+            employee = Office.objects.get(id=employee_id)            
+            tickets = Sale.objects.filter(date_sold=date).filter(office=employee).order_by("-id") 
+
+        else:
+            hotel = Hotel.objects.get(id=hotel_id)            
+            tickets = Sale.objects.filter(date_sold=date).filter(hotel=hotel).order_by("-id")        
         
         #Finds Payment Types and totals it
         usds = tickets.filter(payment="US Dollar")
@@ -494,6 +500,8 @@ def daily_reports(request):
         for amex in amexs:
             amex_total += amex.total_cost
 
+        
+
         #Gets All Activity Names
         activities = Activity.objects.all()
         act_list = []
@@ -502,9 +510,12 @@ def daily_reports(request):
 
         #Gets all Activity Sales
         sales_numbers = []
+        sales_total = 0
         for a in activities:
-            x = ActivityReport(a, tickets) 
+            x = ActivityReport(a, tickets)
+            sales_total += x 
             sales_numbers.append(x)
+        
 
         current_user = request.user.get_username()
         is_super = SuperUser(current_user)
@@ -517,6 +528,7 @@ def daily_reports(request):
             "tickets": tickets,
             "date": date,
             "hotel": hotel,
+            "employee": employee,
             "usd_total": usd_total,
             "cdn_total": cdn_total,
             "rd_total": rd_total,
@@ -526,10 +538,12 @@ def daily_reports(request):
             "amex_total": amex_total,
             "act_list": act_list,
             "sales_numbers": sales_numbers,
+            "sales_total": sales_total
         })
 
     else:
         hotels = Hotel.objects.all()
+        employees = Office.objects.all()
         current_user = request.user.get_username()
         is_super = SuperUser(current_user)
         is_management = Manager(current_user)
@@ -538,7 +552,8 @@ def daily_reports(request):
             "is_super": is_super,
             "is_management": is_management,
             "is_office": is_office,
-            "hotels": hotels
+            "hotels": hotels,
+            "employees": employees
         })
 
 #Shows a Monthly report of sales
@@ -572,8 +587,10 @@ def monthly_reports(request):
 
         #Gets all Activity Sales
         sales_numbers = []
+        sales_total = 0
         for a in activities:
-            x = ActivityReport(a, tickets) 
+            x = ActivityReport(a, tickets)
+            sales_total += x 
             sales_numbers.append(x)
 
         current_user = request.user.get_username()
@@ -590,6 +607,7 @@ def monthly_reports(request):
             "month": month,
             "act_list": act_list,
             "sales_numbers": sales_numbers,
+            "sales_total": sales_total
         })
 
     else:
@@ -637,8 +655,10 @@ def employee_sales(request):
 
         #Gets all Activity Sales
         sales_numbers = []
+        sales_total = 0
         for a in activities:
-            x = ActivityReport(a, tickets) 
+            x = ActivityReport(a, tickets)
+            sales_total += x 
             sales_numbers.append(x)
     
         current_user = request.user.get_username()
@@ -656,6 +676,7 @@ def employee_sales(request):
             "month": month,
             "act_list": act_list,
             "sales_numbers": sales_numbers,
+            "sales_total": sales_total
         })
 
     else:
@@ -700,6 +721,7 @@ def refund(request, ticket_id):
     else:
         pass
 
+#Downloads excel file of email list of clients
 def export_users_xls(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="emails.xls"'
@@ -811,6 +833,7 @@ def my_report(request):
         "sales_numbers": sales_numbers,
     })
 
+#Downloads excel file of every single ticket
 def export_users_xls2(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="sales.xls"'
@@ -840,3 +863,250 @@ def export_users_xls2(request):
 
     wb.save(response)
     return response
+
+#Office Staff does end of day report
+@login_required(login_url='login')
+def daily_money_report(request):
+    if request.method == "POST":
+        user = request.user.get_username()
+        current = User.objects.get(username=user)
+        current_user = Office.objects.get(user_id=current)
+
+        hotel_id = request.POST["hotel"]
+        hotel = Hotel.objects.get(id=hotel_id)
+        usd = request.POST["usd"]
+        usd = float(usd)
+        cdn = request.POST["cdn"]
+        cdn = float(cdn)
+        rd = request.POST["rd"]
+        rd = float(rd)
+        euro = request.POST["euro"]
+        euro = float(euro)
+        visa = request.POST["visa"]
+        visa = float(visa)
+        mc = request.POST["mc"]
+        master_card = float(mc)
+        amex = request.POST["amex"]
+        amex = float(amex)
+        total = usd + cdn + rd + euro + visa + master_card + amex
+        gasoline = request.POST["gasoline"]
+        other = request.POST["other"]
+        other = float(other)
+        comments = request.POST["comment"]
+
+        dayreport = DayEndReport(office=current_user, hotel=hotel, gasoline=gasoline, usd=usd, cdn=cdn, rd=rd, euro=euro, visa=visa, master_card=master_card, amex=amex, total=total, comments=comments, other=other)
+        dayreport.save()
+
+        current_user = request.user.get_username()
+        is_super = SuperUser(current_user)
+        is_management = Manager(current_user)
+        is_office = OfficeStaff(current_user)
+        return HttpResponseRedirect(reverse("index"))
+
+    else:
+        hotels = Hotel.objects.all().order_by("hotel_name")
+        current_user = request.user.get_username()
+        is_super = SuperUser(current_user)
+        is_management = Manager(current_user)
+        is_office = OfficeStaff(current_user)
+        return render(request, "sales/daily_money_report.html", {
+            "is_super": is_super,
+            "is_management": is_management,
+            "is_office": is_office,
+            "hotels": hotels,
+        })
+
+#Office Staff does end of day report
+@login_required(login_url='login')
+def cash_flow(request):
+    if request.method == "POST":
+        hotel_id = request.POST["hotel"]
+        hotel = Hotel.objects.get(id=hotel_id)
+        year = request.POST["year"]
+        month = request.POST["month"]
+        date = request.POST["date"]
+        if date == "":
+            if month == "0":
+                dayend = DayEndReport.objects.filter(date__year=year).filter(hotel=hotel)     
+            else:
+                dayend = DayEndReport.objects.filter(date__year=year).filter(date__month=month).filter(hotel=hotel)     
+                
+        else:
+            if month == "0":
+                dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
+            else:
+                dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
+        
+        usd_total = 0
+        cdn_total = 0
+        rd_total = 0
+        euro_total = 0
+        visa_total = 0
+        mc_total = 0
+        amex_total = 0
+        total = 0
+        gasoline = 0
+        other = 0
+        for day in dayend:
+            usd_total += day.usd
+            cdn_total += day.cdn
+            rd_total += day.rd
+            euro_total += day.euro
+            visa_total += day.visa
+            mc_total += day.master_card
+            amex_total += day.amex
+            total += day.total
+            gasoline += day.gasoline 
+            other += day.other
+     
+        current_user = request.user.get_username()
+        is_super = SuperUser(current_user)
+        is_management = Manager(current_user)
+        is_office = OfficeStaff(current_user)
+        return render(request, "sales/daily-cash-flow.html", {
+            "is_super": is_super,
+            "is_management": is_management,
+            "is_office": is_office,
+            "hotel": hotel,
+            "date": date,
+            "year": year,
+            "month": month,
+            "dayend": dayend,
+            "usd_total": usd_total,
+            "cdn_total": cdn_total,
+            "rd_total": rd_total,
+            "euro_total": euro_total,
+            "visa_total":  visa_total,
+            "mc_total": mc_total,
+            "amex_total": amex_total,
+            "total": total,
+            "gasoline": gasoline,
+            "other": other
+        })
+
+    else:
+        hotels = Hotel.objects.all()
+        current_user = request.user.get_username()
+        is_super = SuperUser(current_user)
+        is_management = Manager(current_user)
+        is_office = OfficeStaff(current_user)
+        return render(request, "sales/hotel-report-search.html", {
+            "is_super": is_super,
+            "is_management": is_management,
+            "is_office": is_office,
+            "hotels": hotels
+        })
+
+@login_required(login_url='login')
+def edit_ticket(request, ticket_id):
+    #Edits ticket in database with new information entered by owner
+    if request.method == "POST":
+        user = request.user.get_username()
+        current = User.objects.get(username=user)
+        current_user = Office.objects.get(user_id=current)
+        quantity1 = float(request.POST["quantity1"])
+        act1 = request.POST["activity1"]
+        activity1 = Activity.objects.get(id=act1)
+        price1 = float(request.POST["price1"])
+        quantity2 = request.POST["quantity2"]
+        quantity2 = float(quantity2)
+        act2 = request.POST["activity2"]
+        if quantity2 > 0:
+            activity2 = Activity.objects.get(id=act2)
+        price2 = request.POST["price2"]
+        price2 = float(price2)
+        quantity3 = request.POST["quantity3"]
+        quantity3 = float(quantity3)
+        act3 = request.POST["activity3"]
+        if quantity3 > 0:
+            activity3 = Activity.objects.get(id=act3)
+        price3 = request.POST["price3"]
+        price3 = float(price3)
+        employee = request.POST["employee"]
+        seller = Employee.objects.get(id=employee)
+        payment = request.POST["payment"]     
+        comment = request.POST["comment"]
+        client_email = request.POST["email"]
+        room_number = request.POST["room"]
+        client_name = request.POST["client_name"]
+        hotel_id = request.POST["hotel"]
+        hotel = Hotel.objects.get(id=hotel_id)
+        total_cost = (quantity1*price1)+(quantity2*price2)+(quantity3*price3)
+        print(ticket_id)
+        edit_ticket = Sale.objects.get(id=ticket_id)
+
+        if quantity3 > 0:
+            edit_ticket.seller = seller
+            edit_ticket.hotel = hotel
+            edit_ticket.payment = payment
+            edit_ticket.client_name = client_name
+            edit_ticket.room_number = room_number
+            edit_ticket.client_email = client_email
+            edit_ticket.total_cost = total_cost
+            edit_ticket.comments = comment + " Edited by: " + user
+            edit_ticket.quantity1 = quantity1
+            edit_ticket.activity1 = activity1
+            edit_ticket.price1 = price1
+            edit_ticket.quantity2 = quantity2
+            edit_ticket.activity2 = activity2
+            edit_ticket.price2 = price2
+            edit_ticket.quantity3 = quantity3
+            edit_ticket.activity3 = activity3
+            edit_ticket.price3 = price3
+            edit_ticket.save()
+
+
+        if quantity3 == 0 and quantity2 > 0:
+            edit_ticket.seller = seller
+            edit_ticket.hotel = hotel
+            edit_ticket.payment = payment
+            edit_ticket.client_name = client_name
+            edit_ticket.room_number = room_number
+            edit_ticket.client_email = client_email
+            edit_ticket.total_cost = total_cost
+            edit_ticket.comments = comment + " Edited by: " + user
+            edit_ticket.quantity1 = quantity1
+            edit_ticket.activity1 = activity1
+            edit_ticket.price1 = price1
+            edit_ticket.quantity2 = quantity2
+            edit_ticket.activity2 = activity2
+            edit_ticket.price2 = price2
+            edit_ticket.save()
+
+        if quantity3 == 0 and quantity2 == 0:
+            edit_ticket.seller = seller
+            edit_ticket.hotel = hotel
+            edit_ticket.payment = payment
+            edit_ticket.client_name = client_name
+            edit_ticket.room_number = room_number
+            edit_ticket.client_email = client_email
+            edit_ticket.total_cost = total_cost
+            edit_ticket.comments = comment + " Edited by: " + user
+            edit_ticket.quantity1 = quantity1
+            edit_ticket.activity1 = activity1
+            edit_ticket.price1 = price1
+            edit_ticket.save()
+          
+        
+        return HttpResponseRedirect(reverse("index"))
+    
+    else:
+        #Gets a single ticket of a client
+        activities = Activity.objects.all()
+        employees = Employee.objects.all().order_by("last_name").exclude(last_name__in=['Ex-Employee'])
+        hotels = Hotel.objects.all().order_by("hotel_name")
+
+        ticket = Sale.objects.get(id=ticket_id)
+        current_user = request.user.get_username()
+        is_super = SuperUser(current_user)
+        is_management = Manager(current_user)
+        is_office = OfficeStaff(current_user)
+        return render(request, "sales/edit_ticket.html", {
+            "is_super": is_super,
+            "is_management": is_management,
+            "is_office": is_office,
+            "ticket": ticket,
+            "activities": activities,
+            "employees": employees,
+            "hotels": hotels,
+        })

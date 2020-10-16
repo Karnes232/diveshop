@@ -56,7 +56,7 @@ class Sale(models.Model):
     seller = models.ForeignKey(Employee, on_delete=models.SET_DEFAULT, default=1, null=True, related_name="seller")
     hotel = models.ForeignKey(Hotel, on_delete=models.SET_NULL, null=True, related_name="hotel")
     date_sold = models.DateField(auto_now_add=True)
-    activity_date = models.DateField(auto_now_add=False, blank = True)
+    activity_date = models.DateField(auto_now_add=False, blank = True) 
     activity_time = models.TimeField(auto_now_add=False, blank = True)
     payment = models.CharField(max_length=254)
     room_number = models.IntegerField()
@@ -83,6 +83,25 @@ class Sale(models.Model):
 class EmailList(models.Model):
     client_name = models.CharField(max_length=254)
     client_email = models.EmailField(max_length=254, blank = True)
+
+class DayEndReport(models.Model):
+    date = models.DateField(auto_now_add=True)
+    office = models.ForeignKey(Office, on_delete=models.SET_NULL, null=True, related_name="dayend_office")
+    hotel = models.ForeignKey(Hotel, on_delete=models.SET_NULL, null=True, related_name="hotel_report")
+    gasoline = models.IntegerField()
+    usd = models.IntegerField()
+    cdn = models.IntegerField()
+    rd = models.IntegerField()
+    euro = models.IntegerField()
+    visa = models.IntegerField()
+    master_card = models.IntegerField()
+    amex = models.IntegerField()
+    total = models.IntegerField()
+    comments = models.TextField(blank = True)
+    other = models.IntegerField()
+
+
+
 
 
 

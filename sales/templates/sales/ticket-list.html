@@ -6,7 +6,24 @@
     <h5>Search by Room Number:</h5>
         <ul>
             {% for ticket in tickets %}
-                <li class="list-group-item list-group-item-action d-flex justify-content-between"><a href="{% url 'ticket' ticket.id %}">Date Sold: {{ ticket.date_sold }} - Ticket {{ ticket.id }}: {{ ticket.client_name }} - ${{ ticket.total_cost }} </a></li>
+                <li class="list-group-item list-group-item-action d-flex justify-content-between"><a href="{% url 'ticket' ticket.id %}">Date Sold: {{ ticket.date_sold }} - Ticket {{ ticket.id }}: {{ ticket.client_name }} - ${{ ticket.total_cost }} </a><div class="d-flex flex-row">
+                    {% if is_super or is_management %}
+                    <a class="btn btn-success btn-sm" href="{% url 'edit_ticket' ticket.id %}">Edit</a>
+                
+                {% endif %} 
+                    {% if is_super or is_management %}
+                <form action="{% url 'refund' ticket.id %}" method="post">
+                    {% csrf_token %}
+                <input class="btn btn-danger btn-sm" type="submit" name="refund" value="Refund" onclick="return confirm('Are you sure?')">
+                </form>
+                {% endif %} 
+            
+            <form action="{% url 'ticket' ticket.id %}" method="post">
+                {% csrf_token %}
+                <input class="btn btn-primary btn-sm" type="submit" value="Resend Email">
+            </form>
+        </div>
+            </li>
             {% empty %}
                 <li class="list-group-item list-group-item-action">No Tickets.</li>
             {% endfor %}
@@ -15,10 +32,23 @@
         <ul>
             {% for ticket in tickets2 %}
                 <li class="list-group-item list-group-item-action d-flex justify-content-between"><a href="{% url 'ticket' ticket.id %}">Date Sold: {{ ticket.date_sold }} - Ticket {{ ticket.id }}: {{ ticket.client_name }} - ${{ ticket.total_cost }}</a>
+                    <div class="d-flex flex-row">
+                        {% if is_super or is_management %}
+                        <a class="btn btn-success btn-sm" href="{% url 'edit_ticket' ticket.id %}">Edit</a>
+                    
+                    {% endif %} 
+                        {% if is_super or is_management %}
+                    <form action="{% url 'refund' ticket.id %}" method="post">
+                        {% csrf_token %}
+                    <input class="btn btn-danger btn-sm" type="submit" name="refund" value="Refund" onclick="return confirm('Are you sure?')">
+                    </form>
+                    {% endif %} 
+                
                 <form action="{% url 'ticket' ticket.id %}" method="post">
                     {% csrf_token %}
-                    <input class="btn btn-primary" type="submit" value="Resend Email">
+                    <input class="btn btn-primary btn-sm" type="submit" value="Resend Email">
                 </form>
+            </div>
                 </li>
             {% empty %}
                 <li class="list-group-item list-group-item-action">No Tickets.</li>

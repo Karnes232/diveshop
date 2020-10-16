@@ -22,6 +22,9 @@ urlpatterns = [
     path("staff_list", views.staff_list, name="staff_list"),
     path("refund/<int:ticket_id>", views.refund, name="refund"),
     path("my_report", views.my_report, name="my_report"),
+    path("daily_money_report", views.daily_money_report, name="daily_money_report"),
+    path("cash_flow", views.cash_flow, name="cash_flow"),
+    path("edit_ticket/<int:ticket_id>", views.edit_ticket, name="edit_ticket"),
     
     
 

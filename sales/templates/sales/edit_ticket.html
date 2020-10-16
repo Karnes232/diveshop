@@ -1,0 +1,176 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+
+    <h2>Edit Ticket: {{ ticket.id }}</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'edit_ticket' ticket.id %}" method="post">
+        {% csrf_token %}
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                <th style="width: 10%">Quantity</th>
+                <th style="width: 60%">Activity</th>
+                <th style="width: 30%">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div>
+                <tr id="row1">
+                    <td><input class="form-control form-control-lg" id="quantity1" name="quantity1" type="number" placeholder="Quantity" min=0 value={{ticket.quantity1}} required></td>
+                    <td>
+                        <select class="form-control form-control-lg" name="activity1" id="" required>
+                            <option label=" "></option>
+                            {% for activity in activities %}
+                                {% if activity == ticket.activity1 %}
+                                    <option value="{{ activity.id }}" selected>{{ activity }}</option>
+                                {% else %}
+                                    <option value="{{ activity.id }}">{{ activity }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input class="form-control form-control-lg" id="price1" name="price1" type="number" placeholder="Price" min=0 value={{ticket.price1}} required></td>
+                </tr>
+                </div>
+                <br>
+                <div>
+                    <tr id="row2">
+                        {% if ticket.quantity2 %}
+                        <td><input class="form-control form-control-lg" id="quantity2" name="quantity2" type="number" placeholder="Quantity" min=0 value={{ticket.quantity2}}></td>
+                        {% else %}
+                        <td><input class="form-control form-control-lg" id="quantity2" name="quantity2" type="number" placeholder="Quantity" min=0 value=0></td>
+                        {% endif %}
+                        <td>
+                            <select class="form-control form-control-lg" name="activity2" id="">
+                                <option label=" "></option>
+                                {% for activity in activities %}
+                                    {% if activity == ticket.activity2 %}
+                                        <option value="{{ activity.id }}" selected>{{ activity }}</option>
+                                    {% else %}
+                                        <option value="{{ activity.id }}">{{ activity }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% if ticket.price2 %}
+                        <td><input class="form-control form-control-lg" id="price2" name="price2" type="number" placeholder="Price" min=0 value={{ticket.price2}}></td>
+                        {% else %}
+                        <td><input class="form-control form-control-lg" id="price2" name="price2" type="number" placeholder="Price" min=0 value=0></td>
+                        {% endif %}
+                    </tr>
+                </div>
+                <br>
+                <div>
+                    <tr id="row3">
+                        {% if ticket.quantity3 %}
+                        <td><input class="form-control form-control-lg" id="quantity3" name="quantity3" type="number" placeholder="Quantity" min=0 value={{ticket.quantity3}}></td>
+                        {% else %}
+                        <td><input class="form-control form-control-lg" id="quantity3" name="quantity3" type="number" placeholder="Quantity" min=0 value=0></td>
+                        {% endif %}
+                        <td>
+                            <select class="form-control form-control-lg" name="activity3" id="">
+                                <option label=" "></option>
+                                {% for activity in activities %}
+                                    {% if activity == ticket.activity3 %}
+                                        <option value="{{ activity.id }}" selected>{{ activity }}</option>
+                                    {% else %}
+                                        <option value="{{ activity.id }}">{{ activity }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% if ticket.price3 %}
+                        <td><input class="form-control form-control-lg" id="price3" name="price3" type="number" placeholder="Price" min=0 value={{ticket.price3}}></td>
+                        {% else %}
+                        <td><input class="form-control form-control-lg" id="price3" name="price3" type="number" placeholder="Price" min=0 value=0></td>
+                        {% endif %}
+                    </tr>
+                </div>         
+            </tbody>
+        </table>
+        <h6>Hotel:</h6>
+        <select class="form-control form-control-lg" name="hotel" id="">
+            {% for hotel in hotels %}
+                {% if hotel == ticket.hotel %}
+                    <option value="{{ hotel.id }}" selected>{{ hotel }}</option>
+                {% else %}
+                    <option value="{{ hotel.id }}">{{ hotel }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+        <h6>Sold By:</h6>
+        <select class="form-control form-control-lg" name="employee" id="">
+            {% for employee in employees %}
+                {% if employee == ticket.seller %}
+                    <option value="{{ employee.id }}" selected>{{ employee }}</option>
+                {% else %}
+                    <option value="{{ employee.id }}">{{ employee }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+        <h6>Payment:</h6>
+        <select class="form-control form-control-lg" name="payment" id="">
+            {% if ticket.payment == "US Dollar" %}
+                <option value="US Dollar" selected>US Dollar</option>
+            {% else %}
+                <option value="US Dollar">US Dollar</option>
+            {% endif %}
+            {% if ticket.payment == "Dominican Peso" %}
+                <option value="Dominican Peso" selected>Dominican Peso</option>
+            {% else %}
+                <option value="Dominican Peso">Dominican Peso</option>
+            {% endif %}
+            {% if ticket.payment == "Euro" %}
+                <option value="Euro" selected>Euro</option>
+            {% else %}
+                <option value="Euro">Euro</option>
+            {% endif %}
+            {% if ticket.payment == "Canadian Dollar" %}
+                <option value="Canadian Dollar" selected>Canadian Dollar</option>
+            {% else %}
+                <option value="Canadian Dollar">Canadian Dollar</option>
+            {% endif %}
+            {% if ticket.payment == "Visa" %}
+                <option value="Visa" selected>Visa</option>
+            {% else %}
+                <option value="Visa">Visa</option>
+            {% endif %}
+            {% if ticket.payment == "Master Card" %}
+                <option value="Master Card" selected>Master Card</option>
+            {% else %}
+                <option value="Master Card">Master Card</option>
+            {% endif %}
+            {% if ticket.payment == "Amex" %}
+                <option value="Amex" selected>Amex</option>
+            {% else %} 
+                <option value="Amex">Amex</option>
+            {% endif %}
+        </select>
+        
+        <br>
+        <h6>Client Information:</h6>
+        <input class="form-control form-control-lg" name="room" type="number" placeholder="Room Number" value={{ticket.room_number}}>
+        <input class="form-control form-control-lg" type="text" name="client_name" placeholder="Client Name" value={{ticket.client_name}} required>
+        <input class="form-control form-control-lg" type="email" name="email" value={{ticket.client_email}} placeholder="Client Email" required>
+        <br>
+        
+          <h4>Comments</h4> 
+            <div class="form-group">
+                <textarea class="form-control" id="comment" name="comment" rows="4" cols="50" placeholder="Comments">{{ticket.comments}}</textarea>
+            </div>
+        <br><br>
+        <input class="btn btn-primary" type="submit" value="Submit" onclick="return confirm(total_sale()) ">
+
+    </form>
+    <br>
+
+    
+ 
+{% endblock %}

@@ -10,8 +10,17 @@
         {% csrf_token %}
         <h6>Hotel:</h6>
         <select class="form-control" name="hotel" id="">
+            <option value="0">Select Hotel </option>
             {% for hotel in hotels %}
                 <option value="{{ hotel.id }}">{{ hotel }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <h6>Employee:</h6>
+        <select class="form-control" name="employee" id="">
+            <option value="0">Select Employee </option>
+            {% for employee in employees %}
+                <option value="{{ employee.id }}">{{ employee }}</option>
             {% endfor %}
         </select>
         <br>

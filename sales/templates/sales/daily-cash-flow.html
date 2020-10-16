@@ -1,0 +1,135 @@
+{% extends "sales/layout.html" %}
+{% load static %}
+{% block body %}
+
+    <h2>{% if date != "" %}Daily Report: {{ date }}{% else %}{% if month != "0" %}Monthly Report: {% else %}Yearly Report: {% endif %} {{ year }}{% if month != "0" %} - {{ month }} {% endif %} {% endif %}</h2>
+    
+    {% if hotel %}
+        <h2>Hotel: {{ hotel }}</h2>
+
+    {% endif %}
+    {% if date != "" %}
+    {% for day in dayend %}
+        <h2>Report Done by: {{ day.office }} </h2>
+        {% endfor %}
+    {% endif %}
+    <h4>Cash Flow (In USD)</h4>
+    {% if date != "" %}
+    
+    <table class="table table-sm table-striped">
+        <thead>
+            <th style="width: 14%">US Dollar</th>
+            <th style="width: 14%">Canadian Dollar</th>
+            <th style="width: 14%">Dominican Peso</th>
+            <th style="width: 14%">Euro</th>
+            <th style="width: 14%">Visa</th>
+            <th style="width: 14%">Master Card</th>
+            <th style="width: 14%">Amex</th>
+        </thead>
+        <tbody>
+            {% for day in dayend %}
+            <tr>
+                <td>${{ day.usd}}</td>
+                <td>${{ day.cdn }}</td>
+                <td>${{ day.rd }}</td>
+                <td>${{ day.euro }}</td>
+                <td>${{ day.visa }}</td>
+                <td>${{ day.master_card }}</td>
+                <td>${{ day.amex }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total:</td>
+                <td>${{ day.total }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Expenses</h4>
+    <table class="table table-sm table-striped" style="width: 30%">
+       
+        <tbody>
+            {% for day in dayend %}
+            <tr>
+                <td style="width: 20%">Gasoline Used: </td>
+                <td style="width: 10%">{{ day.gasoline }} Gallons</td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Other Costs: </td>
+                <td style="width: 10%">${{ day.other }}</td>
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% else %}
+    <table class="table table-sm table-striped">
+        <thead>
+            <th style="width: 14%">US Dollar</th>
+            <th style="width: 14%">Canadian Dollar</th>
+            <th style="width: 14%">Dominican Peso</th>
+            <th style="width: 14%">Euro</th>
+            <th style="width: 14%">Visa</th>
+            <th style="width: 14%">Master Card</th>
+            <th style="width: 14%">Amex</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${{ usd_total}}</td>
+                <td>${{ cdn_total }}</td>
+                <td>${{ rd_total }}</td>
+                <td>${{ euro_total }}</td>
+                <td>${{ visa_total }}</td>
+                <td>${{ mc_total }}</td>
+                <td>${{ amex_total }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total:</td>
+                <td>${{ total }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Expenses</h4>
+    <table class="table table-sm table-striped" style="width: 30%">
+       
+        <tbody>
+            <tr>
+                <td style="width: 20%">Gasoline Used: </td>
+                <td style="width: 10%">{{ gasoline }} Gallons</td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Other Costs: </td>
+                <td style="width: 10%">${{ other }}</td>
+
+
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+    {% if date != "" %}
+    <h4>Comments</h4>
+    {% for day in dayend %}
+        <p>{{ day.comments }}</p>
+        {% endfor %}
+
+
+
+
+    {% endif %}
+
+{% endblock %}

@@ -27,12 +27,16 @@
                     <li class="nav-item dropdown" style="list-style: none;">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Operations</a>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'cash_flow' %}">Cash Flow Report</a>
+                            <a class="dropdown-item" href="{% url 'monthly_reports' %}">Monthly / Yearly Reports</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'hotel' %}">New Hotel</a>
+                            <a class="dropdown-item" href="{% url 'activity' %}">New Activity</a>
                             <a class="dropdown-item" href="{% url 'management' %}">New Manager</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'export_users_xls' %}">Email List</a>
                             <a class="dropdown-item" href="{% url 'export_users_xls2' %}">All Sales</a>
-                            <a class="dropdown-item" href="{% url 'activity' %}">New Activity</a>
+                            
                         </div>
                     </li> 
                 {% endif %}         
@@ -40,7 +44,7 @@
                     <li class="nav-item dropdown" style="list-style: none;">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Management</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'monthly_reports' %}">Monthly / Yearly Reports</a>
+                            <a class="dropdown-item" href="{% url 'daily_reports' %}">Daily Reports</a>
                             <a class="dropdown-item" href="{% url 'employee_sales' %}">Employee Sales</a>
                             <div class="dropdown-divider"></div>   
                             <a class="dropdown-item" href="{% url 'staff_list' %}">Staff List</a>
@@ -56,7 +60,8 @@
                     <li class="nav-item dropdown" style="list-style: none;">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Basics</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'daily_reports' %}">Daily Reports</a>
+                            
+                            <a class="dropdown-item" href="{% url 'daily_money_report' %}">Day End Report</a>
                             <a class="dropdown-item" href="{% url 'my_report' %}">My Report</a>
                             <a class="dropdown-item" href="{% url 'tickets' %}">Ticket Search</a>
                             <a class="dropdown-item" href="{% url 'password' %}">Change Password</a>
