@@ -36,6 +36,26 @@ function total_sale() {
 
 }
 
+function total() {
+
+    let usd = parseInt( document.getElementById("usd").value );
+    let cdn = parseInt( document.getElementById("cdn").value );
+    let rd = parseInt( document.getElementById("rd").value );
+    let euro = parseInt( document.getElementById("euro").value );
+    let visa = parseInt( document.getElementById("visa").value );
+    let mc = parseInt( document.getElementById("mc").value );
+    let amex = parseInt( document.getElementById("amex").value );
+    let other = parseInt( document.getElementById("other").value );
+    
+    var result = usd + cdn + rd + euro + visa + mc + amex + other
+    return(`Day's total is $${result}, Are you sure?`)
+ 
+    
+
+}
+
+
+
 function confirm2() {
     confirm('Are you sure?');
 
