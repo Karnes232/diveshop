@@ -15,3 +15,10 @@ table td input {
   box-sizing: border-box;
 }
 
+.block {
+  border: 1px solid blue;
+  border-bottom: 0;
+  border-right: 0;
+  float: left;
+  width: 128px;
+}

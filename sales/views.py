@@ -927,15 +927,19 @@ def cash_flow(request):
         date = request.POST["date"]
         if date == "":
             if month == "0":
-                dayend = DayEndReport.objects.filter(date__year=year).filter(hotel=hotel)     
+                dayend = DayEndReport.objects.filter(date__year=year).filter(hotel=hotel) 
+                sales = Sale.objects.filter(date__year=year).filter(hotel=hotel)     
             else:
-                dayend = DayEndReport.objects.filter(date__year=year).filter(date__month=month).filter(hotel=hotel)     
+                dayend = DayEndReport.objects.filter(date__year=year).filter(date__month=month).filter(hotel=hotel) 
+                sales = Sale.objects.filter(date__year=year).filter(date__month=month).filter(hotel=hotel)     
                 
         else:
             if month == "0":
                 dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
+                sales = Sale.objects.filter(date_sold=date).filter(hotel=hotel)
             else:
                 dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
+                sales = Sale.objects.filter(date_sold=date).filter(hotel=hotel) 
         
         usd_total = 0
         cdn_total = 0
@@ -958,6 +962,12 @@ def cash_flow(request):
             total += day.total
             gasoline += day.gasoline 
             other += day.other
+        
+        day_sales =  0
+        for sale in sales:
+            day_sales += sale.total_cost
+
+        check = total + other
      
         current_user = request.user.get_username()
         is_super = SuperUser(current_user)
@@ -981,7 +991,9 @@ def cash_flow(request):
             "amex_total": amex_total,
             "total": total,
             "gasoline": gasoline,
-            "other": other
+            "other": other,
+            "day_sales": day_sales,
+            "check": check
         })
 
     else:

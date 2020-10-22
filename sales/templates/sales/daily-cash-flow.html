@@ -48,6 +48,7 @@
 
             </tr>
             {% endfor %}
+            
         </tbody>
     </table>
 
@@ -126,9 +127,12 @@
     {% for day in dayend %}
         <p>{{ day.comments }}</p>
         {% endfor %}
-
-
-
+        {% if day_sales == check %}
+        <h2>Sales match Report</h2>
+        {% else %}
+        <h6>Daily sales were ${{ day_sales }}</h6>
+        <h6>Reported Sales were ${{ check }}</h6>
+        {% endif %}
 
     {% endif %}
 

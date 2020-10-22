@@ -36,87 +36,68 @@
         <table class="table table-sm table-striped">
             <thead>
                 <tr>
-                    <th style="width: 12%">{{ act_list.0 }}</th>
-                    <th style="width: 12%">{{ act_list.1 }}</th>
-                    <th style="width: 12%">{{ act_list.2 }}</th>
-                    <th style="width: 12%">{{ act_list.3 }}</th>
-                    <th style="width: 12%">{{ act_list.4 }}</th>
-                    <th style="width: 12%">{{ act_list.5 }}</th>
-                    <th style="width: 12%">{{ act_list.6 }}</th>
-                    <th style="width: 12%">{{ act_list.7 }}</th>
+                {%for act in act_list|slice:":8" %}
+                <th style="width: 12%">{{ act }}</th>
+                {% endfor %}
                 </tr>
+                
             </thead>
             <tbody>
                 <tr>
-                    <td>${{ sales_numbers.0 }}</td>
-                    <td>${{ sales_numbers.1  }}</td>
-                    <td>${{ sales_numbers.2  }}</td>
-                    <td>${{ sales_numbers.3  }}</td>
-                    <td>${{ sales_numbers.4  }}</td>
-                    <td>${{ sales_numbers.5  }}</td>
-                    <td>${{ sales_numbers.6  }}</td>
-                    <td>${{ sales_numbers.7  }}</td>
+                    {%for sales in sales_numbers|slice:":8" %}
+                        <td style="width: 12%">${{ sales }}</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                    <th style="width: 12%">{{ act_list.8 }}</th>
-                    <th style="width: 12%">{{ act_list.9 }}</th>
-                    <th style="width: 12%">{{ act_list.10 }}</th>
-                    <th style="width: 12%">{{ act_list.11 }}</th>
-                    <th style="width: 12%">{{ act_list.12 }}</th>
-                    <th style="width: 12%">{{ act_list.13 }}</th>
-                    <th style="width: 12%">{{ act_list.14 }}</th>
-                    <th style="width: 12%">{{ act_list.15 }}</th>
-                </tr>
-                <tr>
-                    <td>${{ sales_numbers.8  }}</td>
-                    <td>${{ sales_numbers.9  }}</td>
-                    <td>${{ sales_numbers.10 }}</td>
-                    <td>${{ sales_numbers.11  }}</td>
-                    <td>${{ sales_numbers.12 }}</td>
-                    <td>${{ sales_numbers.13 }}</td>
-                    <td>${{ sales_numbers.14 }}</td>
-                    <td>${{ sales_numbers.15 }}</td>
-                </tr>
-                <tr>
-                    <th style="width: 12%">{{ act_list.16 }}</th>
-                    <th style="width: 12%">{{ act_list.17 }}</th>
-                    <th style="width: 12%">{{ act_list.18 }}</th>
-                    <th style="width: 12%">{{ act_list.19 }}</th>
-                    <th style="width: 12%">{{ act_list.20 }}</th>
-                    <th style="width: 12%">{{ act_list.21 }}</th>
-                    <th style="width: 12%">{{ act_list.22 }}</th>
-                    <th style="width: 12%">{{ act_list.23 }}</th>
-                </tr>
-                <tr>
-                    <td>${{ sales_numbers.16 }}</td>
-                    <td>${{ sales_numbers.17 }}</td>
-                    <td>${{ sales_numbers.18 }}</td>
-                    <td>${{ sales_numbers.19 }}</td>
-                    <td>${{ sales_numbers.20 }}</td>
-                    <td>${{ sales_numbers.21 }}</td>
-                    <td>${{ sales_numbers.22 }}</td>
-                    <td>${{ sales_numbers.23 }}</td>
-                </tr>
-                <tr>
-                    <th style="width: 12%">{{ act_list.24 }}</th>
-                    <th style="width: 12%">{{ act_list.25 }}</th>
-                    <th style="width: 12%">{{ act_list.26 }}</th>
-                    <th style="width: 12%">{{ act_list.27 }}</th>
-                    <th style="width: 12%">{{ act_list.28 }}</th>
-                    <th style="width: 12%">{{ act_list.29 }}</th>
-                    <th style="width: 12%">{{ act_list.30 }}</th>
-                    <th style="width: 12%">{{ act_list.31 }}</th>
-                </tr>
-                <tr>
-                    <td>${{ sales_numbers.24 }}</td>
-                    <td>${{ sales_numbers.25 }}</td>
-                    <td>${{ sales_numbers.26 }}</td>
-                    <td>${{ sales_numbers.27 }}</td>
-                    <td>${{ sales_numbers.28 }}</td>
-                    <td>${{ sales_numbers.29 }}</td>
-                    <td>${{ sales_numbers.30 }}</td>
-                    <td>${{ sales_numbers.31 }}</td>
-                </tr>
+                    {%for act in act_list|slice:"8:16" %}
+                        <th style="width: 12%">{{ act }}</th>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for sales in sales_numbers|slice:"8:16" %}
+                        <td style="width: 12%">${{ sales }}</td>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for act in act_list|slice:"16:24" %}
+                        <th style="width: 12%">{{ act }}</th>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for sales in sales_numbers|slice:"16:24" %}
+                        <td style="width: 12%">${{ sales }}</td>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for act in act_list|slice:"24:32" %}
+                        <th style="width: 12%">{{ act }}</th>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for sales in sales_numbers|slice:"24:32" %}
+                        <td style="width: 12%">${{ sales }}</td>
+                    {% endfor %}
+                    </tr>
+                    {%for act in act_list|slice:"32:40" %}
+                        <th style="width: 12%">{{ act }}</th>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for sales in sales_numbers|slice:"32:40" %}
+                        <td style="width: 12%">${{ sales }}</td>
+                    {% endfor %}
+                    </tr>
+                    {%for act in act_list|slice:"40:48" %}
+                        <th style="width: 12%">{{ act }}</th>
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    {%for sales in sales_numbers|slice:"40:48" %}
+                        <td style="width: 12%">${{ sales }}</td>
+                    {% endfor %}
+                    </tr>
+            
+        
                 <tr>
                     <th></th>
                     <th></th>
