@@ -310,6 +310,14 @@ def management(request):
             
         except:
             pass
+
+        try:
+            employee = Employee(first_name=first_name, last_name=last_name, telephone=telephone, id_number=id_number, email=email)
+            employee.save()
+
+
+        except:
+            pass
         return HttpResponseRedirect(reverse("index"))
     else:
         current_user = request.user.get_username()
@@ -329,7 +337,17 @@ def hotel(request):
         hotel_name = request.POST["hotel_name"]
         hotel = Hotel(hotel_name=hotel_name)
         hotel.save()
-        return HttpResponseRedirect(reverse("hotel"))
+        
+        current_user = request.user.get_username()
+        is_super = SuperUser(current_user)
+        is_management = Manager(current_user)
+        is_office = OfficeStaff(current_user)
+        return render(request, "sales/new_hotel.html", {
+            "is_super": is_super,
+            "is_management": is_management,
+            "is_office": is_office,
+            "message": "Hotel Added"
+        })
 
     else:
         current_user = request.user.get_username()
@@ -921,25 +939,21 @@ def daily_money_report(request):
 def cash_flow(request):
     if request.method == "POST":
         hotel_id = request.POST["hotel"]
-        hotel = Hotel.objects.get(id=hotel_id)
-        year = request.POST["year"]
-        month = request.POST["month"]
-        date = request.POST["date"]
-        if date == "":
-            if month == "0":
-                dayend = DayEndReport.objects.filter(date__year=year).filter(hotel=hotel) 
-                sales = Sale.objects.filter(date__year=year).filter(hotel=hotel)     
-            else:
-                dayend = DayEndReport.objects.filter(date__year=year).filter(date__month=month).filter(hotel=hotel) 
-                sales = Sale.objects.filter(date__year=year).filter(date__month=month).filter(hotel=hotel)     
-                
+        hotel = ''
+        try:
+            hotel = Hotel.objects.get(id=hotel_id)
+        except:
+            pass
+        date = request.POST.get('date', '')
+        
+        if hotel_id == "All Hotels":
+            dayend = DayEndReport.objects.filter(date=date)
+            sales = Sale.objects.filter(date_sold=date)
+        
         else:
-            if month == "0":
-                dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
-                sales = Sale.objects.filter(date_sold=date).filter(hotel=hotel)
-            else:
-                dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
-                sales = Sale.objects.filter(date_sold=date).filter(hotel=hotel) 
+            dayend = DayEndReport.objects.filter(date=date).filter(hotel=hotel) 
+            sales = Sale.objects.filter(date_sold=date).filter(hotel=hotel) 
+
         
         usd_total = 0
         cdn_total = 0
@@ -979,8 +993,6 @@ def cash_flow(request):
             "is_office": is_office,
             "hotel": hotel,
             "date": date,
-            "year": year,
-            "month": month,
             "dayend": dayend,
             "usd_total": usd_total,
             "cdn_total": cdn_total,

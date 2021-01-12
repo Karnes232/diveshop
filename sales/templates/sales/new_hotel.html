@@ -5,7 +5,8 @@
     <h2>New Hotel</h2>
 
     {% if message %}
-        <div>{{ message }}</div>
+    <div class="alert alert-primary" role="alert">{{ message }}</div>
+    <br>
     {% endif %}
 
     <form action="{% url 'hotel' %}" method="post">

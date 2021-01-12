@@ -10,39 +10,15 @@
         {% csrf_token %}
         <h6>Hotel:</h6>
         <select class="form-control" name="hotel" id="">
+            <option value="All Hotels">All Hotels</option>
             {% for hotel in hotels %}
-                <option value="{{ hotel.id }}">{{ hotel }}</option>
+            <option value="{{ hotel.id }}">{{ hotel }}</option>
             {% endfor %}
         </select>
         <br>
-        <h6>Month:</h6>
-        <select class="form-control" name="month" id="">
-            <option value=0>Complete Year</option>
-            <option value=1>January </option>
-            <option value=2>February</option>
-            <option value=3>March</option>
-            <option value=4>April</option>
-            <option value=5>May</option>
-            <option value=6>June</option>
-            <option value=7>July</option>
-            <option value=8>August</option>
-            <option value=9>September</option>
-            <option value=10>October</option>
-            <option value=11>November</option>
-            <option value=12>December</option>
-        </select>
-        <br>
-        <h6>Year:</h6>
-        <select class="form-control" name="year" id="">
-            <option value=2020>2020</option>
-            <option value=2021>2021</option>
-            <option value=2022>2022</option>
-            <option value=2023>2023</option>
-        </select>
-        <br>
-
+        <h6>Date:</h6>
         <input class="form-control" type="date" name="date" id="">
-        
+        <br>
         <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 
